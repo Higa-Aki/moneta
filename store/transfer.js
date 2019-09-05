@@ -5,6 +5,7 @@ export const state = () => ({
   branchId: null,
   accountId: null,
   amount: null,
+  label: null,
 });
 
 export const getters = {
@@ -26,6 +27,7 @@ export const mutations = {
   branchId: (state, branchId) => (state.branchId = branchId),
   accountId: (state, accountId) => (state.accountId = accountId),
   amount: (state, amount) => (state.amount = amount),
+  label: (state, label) => (state.label = label),
 };
 
 export const actions = {
@@ -73,7 +75,7 @@ export const actions = {
     );
   },
   // 振込金額入金の取引明細を追加
-  addStatementReceiveTransfer({ getters, rootGetters, dispatch }, total) {
+  addStatementReceiveTransfer({ state, getters, rootGetters, dispatch }, total) {
     dispatch(
       "statements/add",
       {
@@ -81,7 +83,7 @@ export const actions = {
         amount: getters.amount,
         total,
         kind: "入金",
-        memo: `振込：${rootGetters["login/account"].name}`,
+        memo: `振込：${state.label}`,
       },
       { root: true },
     );

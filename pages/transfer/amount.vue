@@ -1,6 +1,18 @@
 <template>
   <v-card class="mt-4 elevation-12">
     <v-toolbar dark color="primary">
+      <v-toolbar-title>振込者名を入力してください</v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <v-form v-model="valid">
+        <v-text-field
+          name="指名"
+          label="指名"
+          @input="$store.commit('transfer/label', $event)"
+        />
+      </v-form>
+    </v-card-text>
+    <v-toolbar dark color="primary">
       <v-toolbar-title>振込金額を入力して下さい</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
@@ -10,7 +22,7 @@
           label="金額"
           type="number"
           :value="amount"
-          :rules="[v => v < account.total - fee || '残高が不足しています', v => /^[0-9]/.test(v) || '数字を入力してください']"
+          :rules="[v => v < account.total - fee || '残高が不足しています', v => /^[0-9]+$/.test(v) || '数字を入力してください']"
           @input="$store.commit('transfer/amount', $event)"
         />
         <v-btn nuxt dark color="primary" :disabled="!valid" @click="transfer">
